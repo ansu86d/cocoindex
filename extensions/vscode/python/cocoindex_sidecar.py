@@ -29,7 +29,9 @@ class CocoIndexSidecar:
             'payload': payload,
             'timestamp': time.time()
         }
-        print(json.dumps(message), flush=True)
+        # Use sys.stdout.write for more reliable IPC communication
+        sys.stdout.write(json.dumps(message) + '\n')
+        sys.stdout.flush()
         
     def send_flow_update(self, flows: List[Dict[str, Any]]) -> None:
         """Send flow structure update."""

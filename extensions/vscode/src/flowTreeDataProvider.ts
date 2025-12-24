@@ -82,7 +82,7 @@ export class FlowTreeDataProvider implements vscode.TreeDataProvider<FlowNode> {
         }
     }
 
-    getParent(element: FlowNode): vscode.ProviderResult<FlowNode> {
+    getParent(_element: FlowNode): vscode.ProviderResult<FlowNode> {
         // Simple implementation - can be enhanced if needed
         return null;
     }

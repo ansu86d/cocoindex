@@ -93,17 +93,21 @@ export class DashboardPanel {
     }
 
     private _getHtmlForWebview(webview: vscode.Webview): string {
-        // Get the CDN URI for Chart.js (using CDN for simplicity)
-        const chartJsUri = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+        // Get local path to Chart.js
+        const chartJsPath = vscode.Uri.joinPath(this._extensionUri, 'node_modules', 'chart.js', 'dist', 'chart.umd.min.js');
+        const chartJsUri = webview.asWebviewUri(chartJsPath);
+        
+        // Generate a nonce for inline scripts
+        const nonce = getNonce();
 
         return `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'unsafe-inline';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'nonce-${nonce}' ${webview.cspSource}; style-src 'unsafe-inline' ${webview.cspSource};">
     <title>CocoIndex Dashboard</title>
-    <script src="${chartJsUri}"></script>
+    <script nonce="${nonce}" src="${chartJsUri}"></script>
     <style>
         body {
             padding: 20px;
@@ -187,7 +191,7 @@ export class DashboardPanel {
         </div>
     </div>
 
-    <script>
+    <script nonce="${nonce}">
         const vscode = acquireVsCodeApi();
         
         // Initialize charts
@@ -287,4 +291,13 @@ export class DashboardPanel {
 </body>
 </html>`;
     }
+}
+
+function getNonce(): string {
+    let text = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < 32; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
 }
