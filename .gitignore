@@ -24,3 +24,8 @@ examples/**/eval_*
 
 # mypy daemon environment
 .dmypy.json
+
+# VS Code Extension
+vscode-extension/node_modules
+vscode-extension/out
+vscode-extension/*.vsix
