@@ -1,0 +1,103 @@
+{
+  "name": "cocoindex-monitor",
+  "displayName": "CocoIndex Monitor",
+  "description": "Monitor and visualize CocoIndex data flows and statistics in real-time",
+  "version": "0.0.1",
+  "publisher": "cocoindex",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cocoindex-io/cocoindex"
+  },
+  "icon": "resources/cocoindex-icon.svg",
+  "engines": {
+    "vscode": "^1.107.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "activationEvents": [
+    "onView:cocoindexFlows"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "cocoindex-explorer",
+          "title": "CocoIndex",
+          "icon": "resources/cocoindex-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "cocoindex-explorer": [
+        {
+          "id": "cocoindexFlows",
+          "name": "Active Flows"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "cocoindex-monitor.refreshFlows",
+        "title": "Refresh Flows",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "cocoindex-monitor.showDashboard",
+        "title": "Show CocoIndex Dashboard",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "cocoindex-monitor.startMonitoring",
+        "title": "Start Flow Monitoring"
+      },
+      {
+        "command": "cocoindex-monitor.stopMonitoring",
+        "title": "Stop Flow Monitoring"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "cocoindex-monitor.refreshFlows",
+          "when": "view == cocoindexFlows",
+          "group": "navigation"
+        },
+        {
+          "command": "cocoindex-monitor.showDashboard",
+          "when": "view == cocoindexFlows",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.107.0",
+    "@vscode/test-cli": "^0.0.12",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.39.1",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1",
+    "webpack": "^5.103.0",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "chart.js": "^4.5.1"
+  }
+}
