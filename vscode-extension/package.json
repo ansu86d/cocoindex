@@ -1,0 +1,109 @@
+{
+  "name": "cocoindex-monitor",
+  "displayName": "CocoIndex Monitor",
+  "description": "Monitor and visualize CocoIndex data flows in real-time",
+  "version": "0.1.0",
+  "publisher": "cocoindex",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:cocoindex.startMonitoring",
+    "onView:cocoindexFlows"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "cocoindex",
+          "title": "CocoIndex",
+          "icon": "resources/cocoindex-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "cocoindex": [
+        {
+          "id": "cocoindexFlows",
+          "name": "Active Flows"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "cocoindex.startMonitoring",
+        "title": "CocoIndex: Start Monitoring"
+      },
+      {
+        "command": "cocoindex.stopMonitoring",
+        "title": "CocoIndex: Stop Monitoring"
+      },
+      {
+        "command": "cocoindex.showDashboard",
+        "title": "CocoIndex: Show Dashboard"
+      },
+      {
+        "command": "cocoindex.refreshFlows",
+        "title": "CocoIndex: Refresh Flows",
+        "icon": "$(refresh)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "cocoindex.refreshFlows",
+          "when": "view == cocoindexFlows",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "CocoIndex",
+      "properties": {
+        "cocoindex.pythonPath": {
+          "type": "string",
+          "default": "python3",
+          "description": "Path to Python interpreter with CocoIndex installed"
+        },
+        "cocoindex.autoStart": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically start monitoring when a CocoIndex project is detected"
+        },
+        "cocoindex.refreshInterval": {
+          "type": "number",
+          "default": 5000,
+          "description": "Refresh interval for flow status in milliseconds"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "@types/vscode": "^1.107.0",
+    "@vscode/vsce": "^3.7.1",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.3",
+    "webpack": "^5.104.1",
+    "webpack-cli": "^6.0.1"
+  },
+  "keywords": [
+    "cocoindex",
+    "monitoring",
+    "dataflow",
+    "visualization"
+  ],
+  "author": "CocoIndex",
+  "license": "Apache-2.0"
+}
